@@ -1,0 +1,22 @@
+Standardized parameters:
+Batch size: 32
+Learning rate: 0.001
+Epochs: 20
+Weight decay= 0.0005
+Momentum=0.9
+
+BirdNetComplexV1 After 20 epochs and no Tuning: 
+ Train accuracy: 0.9819 
+ Val accuracy: 0.8013
+BirdNetComplexV2 After 20 epochs and no Tuning: 
+ Train accuracy: 0.9869 
+ Val accuracy: 0.7929
+BirdNetComplexV3 After 20 epochs and no Tuning: 
+ Train accuracy: 0.9718 
+ Val accuracy: 0.7729
+BirdNetSimple After 20 epochs and no Tuning: 
+ Train accuracy: 0.1574 
+ Val accuracy: 0.1489
+BirdNetSimpleV2 After 20 epochs and no Tuning: 
+ Train accuracy: 0.9450 
+ Val accuracy: 0.4876

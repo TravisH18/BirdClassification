@@ -22,23 +22,28 @@ if __name__ == '__main__':
     print(device)
 
     # Create an instance of your custom CNN
-    model = BirdNetComplexV3()
+    #model = BirdNetComplexV3()
+    MODEL_PATH =  './BirdNetComplexV1_weights.pth'
+    model = torch.load(MODEL_PATH)
+    print(model)
 
     # Define the hyperparameters to tune and their search space
     param_grid = {
-        'lr': [0.001, 0.001, 0.01, 0.1],
+        'lr': [0.0001, 0.001, 0.01, 0.1],
+        'optimizer__momentum': [0.0, 0.3, 0.6, 0.9],
         'batch_size': [16, 32, 64, 128],
-        'max_epochs': [10, 20, 30],
+        'max_epochs': [20, 25, 30, 40],
+        #'module__dropout_rate': [0.2, 0.4, 0.6, 0.8]
     }
 
     # Wrap your model in a skorch NeuralNetClassifier
     net = NeuralNetClassifier(
         module=model,
         criterion=nn.CrossEntropyLoss,
-        optimizer=optim.Adam,
-        max_epochs=10,
-        lr=lr,
-        batch_size=32,
+        optimizer=optim.SGD,
+        # max_epochs=10,
+        # lr=lr,
+        # batch_size=32,
         verbose=False,
         train_split=None,
         warm_start=True,
@@ -97,5 +102,5 @@ if __name__ == '__main__':
             break
     print('SEARCH COMPLETE')
     print("best score: {:.3f}, best params: {}".format(gs.best_score_, gs.best_params_))
-    save_best_hyperparam(gs.best_score_, f"./outputs/{search_folder}/best_param.yml")
-    save_best_hyperparam(gs.best_params_, f"./outputs/{search_folder}/best_param.yml")
+    save_best_hyperparam(gs.best_score_, f"./outputs/{search_folder}/best_param_ComplexV1.yml")
+    save_best_hyperparam(gs.best_params_, f"./outputs/{search_folder}/best_param_ComplexV1.yml")

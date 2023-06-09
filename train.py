@@ -33,19 +33,19 @@ if __name__ == '__main__':
     torch.backends.cudnn.benchmark = True
     torch.backends.cuda.matmul.allow_tf32 = True
     # define Model and Optimizer
-    #MODEL_PATH = './models/birdnetcomplexV2_model.pth'
+    MODEL_PATH =  './birdnetcomplexV3_3_weights.pth'
     model = BirdNetComplexV3(dropout = 0.5).to(device)
     #model.load_state_dict(torch.load(MODEL_PATH))
-    #model = torch.load(MODEL_PATH)
+    # model = torch.load(MODEL_PATH)
     #summary(model, input_size=(3, 244, 244))
-    # print(model)
-    # print(device)
+    print(model)
+    print(device)
     
-    # model = model.to(device)
+    model = model.to(device)
 
-    LR = 0.001
+    LR = 0.0001
     #opt = optim.Adam(model.parameters(), lr=LR, weight_decay=0.005)
-    opt = optim.SGD(model.parameters(), lr=LR, weight_decay=0.005, momentum=0.9)
+    opt = optim.SGD(model.parameters(), lr=LR, weight_decay=0.0005, momentum=0.9)
     #opt = optim.SGD(model.parameters, momentum=0.9, weight_decay=0.005)
     loss_fn = nn.CrossEntropyLoss()
 
@@ -59,9 +59,9 @@ if __name__ == '__main__':
     }
 
     # Dataset Parameters
-    BATCH_SIZE = 32
+    BATCH_SIZE = 16
     DATA_DIR = './data/'
-    PATH = 'birdnetcomplexV3_2_weights.pth'
+    PATH = 'birdnetcomplexV3_3_weights.pth'
 
     # Create Training Dataset
     train_ds = BirdDataset(os.path.join(DATA_DIR), os.path.join(DATA_DIR, 'birds.csv'), split='train', transform=True)
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     val_steps = len(val_dl.dataset) // BATCH_SIZE
 
     # Define Training Hyperparameters
-    EPOCHS = 100
+    EPOCHS = 25
     best_val_acc = 0
 
     for epoch in range(EPOCHS):
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
         if val_tp_tn > best_val_acc:
             best_val_acc = val_tp_tn
-            torch.save(model.state_dict(), 'current_best_state_V3_2.pth')
+            torch.save(model.state_dict(), 'current_best_state_V3_3.pth')
 
 
         # Calculate Training Final Metrics
